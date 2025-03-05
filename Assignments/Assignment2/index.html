@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none; 
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .top-section {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            z-index: 1000;
+    
+        }
+
+        .flash-sale{
+
+            background-color: black;
+            color: white;
+            font-size: 12px;
+            padding: 17px;
+            text-align: center;
+            cursor: pointer;
+            
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .logo {
+            font-size: 52px;
+            font-family: 'Dancing Script', cursive;
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            position: absolute;
+            left: 40px;
+            top: 72px;
+            flex: 1; 
+            align-items: center; 
+            border-bottom: 1px solid lightgray;
+            outline: none;
+                }
+
+        .search-bar input {
+            border: none;
+            font-size: 15px; 
+            padding: 10px 0; 
+            width: 250px; 
+            outline: none;
+        }
+
+        .search-bar i {
+            font-size: 16px; 
+            margin-right: 8px; 
+            color: black 
+        } 
+
+        .icons {
+            position: absolute;
+            right: 25px; 
+            top: 90px;    
+            display: flex; 
+            align-items: center; 
+            gap: 10px
+            
+        }
+
+        .icons span, .icons i {
+            margin-left: 12px;
+            font-size: 12px; 
+            cursor: pointer;
+            color: black;
+        }
+
+        .menu {
+            
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background-color: white; 
+            padding: 25px 0; 
+        }
+
+        .menu ul {
+            display: flex; 
+            list-style: none;
+            padding: 0;
+    
+        }
+
+        .menu li {
+            margin: 0 15px; 
+            font-size: 12px;
+            text-transform: uppercase;
+            cursor: pointer;
+            color: gray;
+        }
+
+        .menu li:hover {
+            color: black;
+    
+        }
+
+        .has-dropdown{
+            position:relative;
+            
+        }
+
+        .dropdown{
+            
+            width: 100vw;
+            position: fixed;
+            top: 190px;
+            left: 0;
+            display: none;
+            background-color: white;
+            
+            
+        }
+
+        .dropdown img {
+            margin-top: 30px;
+            margin-left: 30px;
+
+        }
+
+
+        .has-dropdown:hover .dropdown{
+            display: flex;
+        }
+
+        .dropdown-columns {
+            display: flex;
+            gap: 100px; 
+            margin-left: 80px;
+            margin-top: 30px;
+        }
+
+        .dropdown-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .dropdown-list li {
+            margin: 10px 0;
+        }
+
+        .dropdown-list li a {
+            text-decoration: none;
+            color: gray;
+            font-size: 10px;
+            display: block;
+        }
+
+        .dropdown-list li a:hover {
+            color: black;
+        }
+
+
+        .has-dropdown:hover .dropdown {
+            display: flex;
+        }
+                
+    
+        .hero-section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0px; 
+        margin-top: 190px; 
+        }
+
+        .hero-section a {
+            display: block;
+            width: 100%;
+        }
+
+        .hero-section img {
+            width: 100%;
+            height: auto;
+            display: block;
+            
+        }
+
+        .portrait-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            gap: 0;
+        }
+
+        .portrait-container a {
+            width: 50%;
+        }
+
+        .portrait {
+            height: 400px; 
+            object-fit: cover; 
+        }
+
+        .background {
+            position: relative;
+            text-align: center;
+            padding-top: 220px; 
+            padding-bottom: 200px; 
+        }
+
+        .bg-logo {
+            font-size: 200px;
+            font-family: 'Dancing Script', cursive;
+            color: rgba(58, 19, 19, 0.651);
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            bottom: -50px;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .tagline {
+            font-style: italic;
+            font-size: 23px;
+            color: rgb(78, 24, 24);
+            text-align: center;
+            top: -130px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .image-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; 
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            padding: 20px 0; 
+        }
+
+        .image-section img {
+            width: 25%;
+            height: auto; 
+            object-fit: contain; 
+        }
+
+        .footer {
+            
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 0px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-column {
+            text-align: left;
+            margin: 20px;
+        }
+
+        .footer-column h3 {
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+
+        .footer-column ul li {
+            font-size: 12px;
+            margin-bottom: 20px;
+            color: gray;
+        }
+
+        .footer-column ul li:hover {
+            text-decoration: underline;
+            cursor: pointer; 
+        }
+
+        .footer-logo {
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .footer-logo img {
+            width: 180px;
+        
+        }
+
+    </style>
+</head>
+<body>
+    
+    <div class="top-section">
+
+        <a href="page1.html" >
+        <div class="flash-sale">20% OFF* CODE: TWENTY</div>
+        </a>
+
+        <div class="logo-container">
+            <h1 class="logo";>PrettyLittleThing</h1>
+
+        <div class="search-bar">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="SEARCH">
+        </div>
+
+        <div class="icons">
+            <a href="page1.html" ><i class="fa-regular fa-user"> Account</i></a>
+            <a href="page1.html" ><i class="fa-regular fa-heart"> Wishlist</i></a>
+            <a href="page1.html" ><i class="fa-solid fa-bag-shopping"></i></a>
+        </div>
+
+        </div>
+
+        <div class="menu">
+            
+                <ul>
+                    <li class= "has-dropdown">NEW ARRIVALS
+                        <div class="dropdown">
+                        <img src="images/new arrivals.png" alt="New Arrivals"> 
+                        <div class="dropdown-columns">
+                            <ul class="dropdown-list">
+                                <li style="color: black;">NEW ARRIVALS</li>
+                                <li><a href="#">View All</a></li>
+                                <li><a href="#">New in Today</a></li>
+                                <li><a href="#">Back in Stock</a></li>
+                            </ul>
+                            <ul class="dropdown-list">
+                                <li style="color: black;">COLLECTIONS</li>
+                                <li><a href="#">PLT Label</a></li>
+                                <li><a href="#">Sring Statements</a></li>
+                            </ul>
+                        </div>
+                        </div>
+                    
+                        
+                    </li>
+                        
+
+                    <li class="has-dropdown">CLOTHING
+                        <div class="dropdown">
+                        <img src="images/occassion.png" alt="New Arrivals">
+                        <div class="dropdown-content">
+                        </div>
+                        
+
+                    </li>
+                    <li>TRENDING</li>
+                    <li>DRESSES</li>
+                    <li>SHOES & ACCESSORIES</li>
+                    <li>BEAUTY</li>
+                    <li>SALE</li>
+                </ul>
+            
+        </div>
+
+    </div>
+
+    <section class="hero-section">
+        
+        <div class="image-container"> 
+        <a href="page1.html">
+            <img src="images/landscape1.png" alt="Landscape 1" class="landscape">
+        </a>
+        
+        </div>
+    
+        
+        <div class="portrait-container">
+            <div class="image-container"></div>
+            <a href="page2.html">
+                <img src="images/portrait1.png" alt="Portrait 1" class="portrait">
+                
+            </a>
+            
+
+            <div class="image-container"></div>
+            <a href="page3.html">
+                <img src="images/portrait2.png" alt="Portrait 2" class="portrait">
+            </a>
+        </div>
+    
+        
+        <a href="page4.html">
+            <img src="images/landscape2.png" alt="Landscape 3" class="landscape">
+        </a>
+    
+    </section>
+
+    <div class="background">
+        <div class="tagline">The Style Source for Every Kind of <span style="font-style: normal; font-weight: bold;">IT Girl.</span></div>
+        <h1 class="bg-logo">PrettyLittleThing</h1>
+        
+    </div>
+
+    <div class="image-section">
+        <img src="images/bottoms.png" alt="Fashion Image 1">
+        <img src="images/outerwear.png" alt="Fashion Image 2">
+        <img src="images/occassion.png" alt="Fashion Image 3">
+        <img src="images/denim.png" alt="Fashion Image 4">
+    </div>
+    
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>LET US HELP YOU</h3>
+                <ul>
+                    <li>Help</li>
+                    <li>Returns</li>
+                    <li>Size Guide</li>
+                    <li>Delivery</li>
+                    <li>Gift Cards</li>
+                    <li>Clearpay</li>
+                    <li>Klarna</li>
+                    <li>PayPal</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>ABOUT US</h3>
+                <ul>
+                    <li>About Us</li>
+                    <li>Diversity</li>
+                    <li>Students & Graduates</li>
+                    <li>Essential Workers Discount</li>
+                    <li>Become An Affiliate</li>
+                    <li>Modern Slavery Statement</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>INFORMATION</h3>
+                <ul>
+                    <li>Terms & Conditions</li>
+                    <li>Privacy Policy</li>
+                    <li>Sitemap</li>
+                    <li>App Info</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>MY ACCOUNT</h3>
+                <ul>
+                    <li>Order History</li>
+                    <li>Track My Order</li>
+                    <li>Refer A Friend</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>SOCIAL</h3>
+                <ul>
+                    <li>Instagram</li>
+                    <li>Meta</li>
+                    <li>X</li>
+                    <li>TikTok</li>
+                    <li>Youtube</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-logo">
+            <img src="images/footerlogo.png" alt="Footer Logo">
+        </div>
+    </footer>
+
+
+
+</body>
+</html>
