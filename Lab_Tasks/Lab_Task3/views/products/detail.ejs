@@ -1,0 +1,483 @@
+<div class="container py-4" style="margin-top: 160px; max-width: 1000px;">
+    <div class="row">
+        
+        <div class="col-lg-5 mb-4">
+            <div class="image-card">
+                
+                <div class="product-image-container">
+                    <img src="<%= product.image || 'https://via.placeholder.com/400x500/6c757d/ffffff?text=Product+Image' %>" 
+                         alt="<%= product.name %>" 
+                         class="main-product-image"
+                         onerror="this.src='https://via.placeholder.com/400x500/6c757d/ffffff?text=Product+Image'"
+                         loading="lazy">
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="col-lg-7">
+            <div class="product-info">
+                
+                <span class="badge bg-secondary mb-2">
+                    <%= product.category || 'General' %>
+                </span>
+
+                <h1 class="product-title mb-3"><%= product.name %></h1>
+
+                <p class="product-description mb-3">
+                    <%= product.description || 'No description available' %>
+                </p>
+
+                <div class="price-section mb-3">
+                    <span class="price">$<%= parseFloat(product.price || 0).toFixed(2) %></span>
+                </div>
+
+                <div class="stock-section mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-box text-muted me-2"></i>
+                        <span class="text-muted">Stock: </span>
+                        <span class="ms-2 stock-status <%= parseInt(product.quantity || 0) > 0 ? 'in-stock' : 'out-of-stock' %>">
+                            <% if (parseInt(product.quantity || 0) > 0) { %>
+                                <%= product.quantity %> available
+                            <% } else { %>
+                                Out of stock
+                            <% } %>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="quantity-section mb-3">
+                    <label for="quantity" class="form-label small">Quantity:</label>
+                    <div class="quantity-controls">
+                        <button class="btn btn-outline-secondary btn-sm" type="button" onclick="decreaseQuantity()"
+                                <% if (parseInt(product.quantity || 0) <= 0) { %>disabled<% } %>>
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <input type="number" class="form-control form-control-sm text-center quantity-input" 
+                               id="quantity" value="1" min="1" max="<%= product.quantity || 0 %>" 
+                               <% if (parseInt(product.quantity || 0) <= 0) { %>disabled<% } %>>
+                        <button class="btn btn-outline-secondary btn-sm" type="button" onclick="increaseQuantity()"
+                                <% if (parseInt(product.quantity || 0) <= 0) { %>disabled<% } %>>
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="action-buttons mb-4">
+                    <button class="btn btn-primary add-to-cart-btn" 
+                            data-product-id="<%= product._id %>"
+                            data-product-name="<%= product.name %>"
+                            <% if (parseInt(product.quantity || 0) <= 0) { %>disabled<% } %>>
+                        <i class="fas fa-cart-plus"></i> 
+                        <span class="btn-text">
+                            <% if (parseInt(product.quantity || 0) <= 0) { %>
+                                Out of Stock
+                            <% } else { %>
+                                Add to Cart
+                            <% } %>
+                        </span>
+                    </button>
+                    <a href="/products" class="btn btn-outline-secondary ms-2">
+                        <i class="fas fa-arrow-left"></i> Back to Products
+                    </a>
+                </div>
+
+                <div class="features-section">
+                    <h6 class="features-title mb-2">Product Features:</h6>
+                    <ul class="features-list">
+                        <li>
+                            <i class="fas fa-check text-success me-2"></i>
+                            High Quality Materials
+                        </li>
+                        <li>
+                            <i class="fas fa-check text-success me-2"></i>
+                            Fast Shipping Available
+                        </li>
+                        <li>
+                            <i class="fas fa-check text-success me-2"></i>
+                            30-Day Return Policy
+                        </li>
+                        <li>
+                            <i class="fas fa-check text-success me-2"></i>
+                            Customer Support
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="alertContainer" class="position-fixed top-0 end-0 p-3" style="z-index: 1050; margin-top: 140px;"></div>
+
+<script>
+
+if (typeof jQuery === 'undefined') {
+    console.error('jQuery is not loaded! Please include jQuery in your layout.');
+    alert('jQuery is required for this page to work properly. Please check your layout file.');
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    adjustForHeader();
+
+    window.addEventListener('resize', adjustForHeader);
+});
+
+function adjustForHeader() {
+    const header = document.querySelector('header, .navbar, .top-section');
+    const container = document.querySelector('.container');
+    
+    if (header && container) {
+        const headerHeight = header.offsetHeight;
+        container.style.marginTop = (headerHeight + 20) + 'px';
+        
+        const alertContainer = document.getElementById('alertContainer');
+        if (alertContainer) {
+            alertContainer.style.marginTop = (headerHeight + 10) + 'px';
+        }
+    }
+}
+
+$(document).ready(function() {
+    console.log('Product details page loaded');
+
+    $('.add-to-cart-btn').click(function(e) {
+        e.preventDefault();
+        
+        const productId = $(this).data('product-id');
+        const productName = $(this).data('product-name');
+        
+        if (!productId) {
+            showAlert('danger', 'Product ID is missing');
+            return;
+        }
+        
+        addToCart(productId, this);
+    });
+});
+
+function increaseQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    const currentValue = parseInt(quantityInput.value);
+    const maxValue = parseInt(quantityInput.max);
+    
+    if (currentValue < maxValue && maxValue > 0) {
+        quantityInput.value = currentValue + 1;
+    }
+}
+
+function decreaseQuantity() {
+    const quantityInput = document.getElementById('quantity');
+    const currentValue = parseInt(quantityInput.value);
+    
+    if (currentValue > 1) {
+        quantityInput.value = currentValue - 1;
+    }
+}
+
+function addToCart(productId, buttonElement = null) {
+    const quantity = parseInt(document.getElementById('quantity').value) || 1;
+    
+    console.log('Adding to cart:', productId, quantity);
+
+    let button = buttonElement;
+    let originalText = '';
+    
+    if (button) {
+        originalText = button.innerHTML;
+        button.disabled = true;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span class="btn-text">Adding...</span>';
+    }
+    
+    $.ajax({
+        url: '/cart/add',
+        method: 'POST',
+        data: { 
+            productId: productId, 
+            quantity: quantity 
+        },
+        timeout: 10000,
+        success: function(response) {
+            console.log('Cart response:', response);
+            if (response && response.success) {
+                showAlert('success', response.message || 'Product added to cart successfully!');
+                updateCartCount(response.cartCount || response.itemCount);
+            } else {
+                showAlert('danger', response.message || 'Error adding to cart');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('AJAX Error:', xhr, status, error);
+            
+            let errorMessage = 'Error adding product to cart';
+            
+            if (xhr.status === 404) {
+                errorMessage = 'Cart endpoint not found. Please check your server routes.';
+            } else if (xhr.status === 500) {
+                errorMessage = 'Server error occurred. Please try again.';
+            } else if (status === 'timeout') {
+                errorMessage = 'Request timed out. Please try again.';
+            } else if (xhr.responseJSON && xhr.responseJSON.message) {
+                errorMessage = xhr.responseJSON.message;
+            }
+            
+            showAlert('danger', errorMessage);
+        },
+        complete: function() {
+            
+            if (button) {
+                button.disabled = false;
+                button.innerHTML = originalText;
+            }
+        }
+    });
+}
+
+function showAlert(type, message) {
+    const alertHtml = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-triangle'}"></i>
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    `;
+    
+    $('#alertContainer').append(alertHtml);
+
+    setTimeout(() => {
+        $('#alertContainer .alert').last().fadeOut();
+    }, 5000);
+}
+
+function updateCartCount(count) {
+    console.log('Updating cart count:', count);
+
+    const cartCountElement = document.querySelector('.cart-count, #cart-count, [data-cart-count]');
+    if (cartCountElement) {
+        cartCountElement.textContent = count;
+    }
+
+    const cartBadge = document.querySelector('.cart-badge, [data-cart-badge]');
+    if (cartBadge) {
+        cartBadge.textContent = count;
+        cartBadge.style.display = count > 0 ? 'inline' : 'none';
+    }
+}
+</script>
+
+<style>
+
+.container {
+    margin-top: 160px !important;
+    max-width: 1000px;
+    padding: 1rem;
+}
+
+.image-card {
+    background: #f8f9fa;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.product-image-container {
+    width: 100%;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    overflow: hidden;
+}
+
+.main-product-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    object-position: center;
+    transition: transform 0.3s ease;
+}
+
+.image-card:hover .main-product-image {
+    transform: scale(1.02);
+}
+
+.product-info {
+    padding: 0.5rem 0;
+}
+
+.product-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #212529;
+    line-height: 1.3;
+}
+
+.product-description {
+    font-size: 0.95rem;
+    color: #6c757d;
+    line-height: 1.5;
+}
+
+.price-section {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 0.75rem;
+}
+
+.price {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0d6efd;
+}
+
+.stock-section {
+    font-size: 0.9rem;
+}
+
+.in-stock {
+    color: #198754;
+    font-weight: 600;
+}
+
+.out-of-stock {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.quantity-section label {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+.quantity-input {
+    width: 60px;
+    margin: 0 0.25rem;
+    text-align: center;
+}
+
+.action-buttons {
+    padding-top: 0.75rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.add-to-cart-btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.features-section {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.features-title {
+    color: #495057;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.features-list li {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin-top: 120px !important;
+        padding: 0.75rem;
+        max-width: 100%;
+    }
+    
+    .product-image-container {
+        height: 300px;
+    }
+    
+    .product-title {
+        font-size: 1.25rem;
+    }
+    
+    .price {
+        font-size: 1.5rem;
+    }
+    
+    .action-buttons {
+        text-align: center;
+    }
+    
+    .action-buttons .btn {
+        margin-bottom: 0.5rem;
+        width: 100%;
+    }
+    
+    .action-buttons .ms-2 {
+        margin-left: 0 !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-image-container {
+        height: 280px;
+    }
+    
+    .features-section {
+        padding: 0.75rem;
+    }
+}
+
+.fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.add-to-cart-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.badge {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+}
+
+#alertContainer {
+    z-index: 1060;
+}
+
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.btn-outline-secondary {
+    border-color: #ced4da;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+</style>

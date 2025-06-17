@@ -1,0 +1,322 @@
+body {
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none; 
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .top-section {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: white;
+            z-index: 1000;
+        }
+
+        .flash-sale{
+            background-color: black;
+            color: white;
+            font-size: 12px;
+            padding: 17px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .logo {
+            font-size: 52px;
+            font-family: 'Dancing Script', cursive;
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .search-bar {
+            position: absolute;
+            left: 40px;
+            top: 72px;
+            flex: 1; 
+            align-items: center; 
+            border-bottom: 1px solid lightgray;
+            outline: none;
+                }
+
+        .search-bar input {
+            border: none;
+            font-size: 15px; 
+            padding: 10px 0; 
+            width: 250px; 
+            outline: none;
+        }
+
+        .search-bar i {
+            font-size: 16px; 
+            margin-right: 8px; 
+            color: black 
+        } 
+
+        .icons {
+            position: absolute;
+            right: 25px; 
+            top: 90px;    
+            display: flex; 
+            align-items: center; 
+            gap: 10px
+        }
+
+        .icons span, .icons i {
+            margin-left: 12px;
+            font-size: 12px; 
+            cursor: pointer;
+            color: black;
+        }
+
+        .menu {
+            position: relative;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background-color: white; 
+            padding: 25px; 
+        }
+
+        .menu ul {
+            display: flex; 
+            list-style: none;
+            padding: 0;
+        }
+
+        .menu li {
+            margin: 0 15px; 
+            font-size: 12px;
+            text-transform: uppercase;
+            cursor: pointer;
+            color: gray;
+        }
+
+        .menu li:hover {
+            color: black;
+        }
+
+        .dropdown{
+            width: 100vw;
+            position: absolute;
+            top: 40px;
+            left: 0;
+            display: none;
+            background-color: white;
+        }
+
+        .dropdown img {
+            margin-top: 30px;
+            margin-left: 30px;
+        }
+
+        .dropdown-columns {
+            display: flex;
+            gap: 100px; 
+            margin-left: 80px;
+            margin-top: 30px;
+        }
+
+        .dropdown-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .dropdown-list li {
+            margin: 10px;
+        }
+
+        .dropdown-list li a {
+            text-decoration: none;
+            color: gray;
+            font-size: 10px;
+            display: block;
+        }
+
+        .dropdown-list li a:hover {
+            color: black;
+        }
+
+        .has-dropdown:hover .dropdown {
+            display: flex;
+        }
+                
+        .hero-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0px; 
+            margin-top: 190px; 
+        }
+
+        .hero-section a {
+            display: block;
+            width: 100%;
+        }
+
+        .hero-section img {
+            width: 100%;
+            height: auto;
+            display: block; 
+        }
+
+        .portrait-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            gap: 0;
+        }
+
+        .portrait-container a {
+            width: 50%;
+        }
+
+        .portrait {
+            height: 400px; 
+            object-fit: cover; 
+        }
+
+        .background {
+            position: relative;
+            text-align: center;
+            padding-top: 220px; 
+            padding-bottom: 200px; 
+        }
+
+        .bg-logo {
+            font-size: 200px;
+            font-family: 'Dancing Script', cursive;
+            color: rgba(58, 19, 19, 0.651);
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            bottom: -50px;
+            left: 0;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .tagline {
+            font-style: italic;
+            font-size: 23px;
+            color: rgb(78, 24, 24);
+            text-align: center;
+            top: -130px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .image-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center; 
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            padding: 20px 0; 
+        }
+
+        .image-section img {
+            width: 25%;
+            height: auto; 
+            object-fit: contain; 
+        }
+
+        .carousel {
+            max-width: 400px; 
+            margin-left: auto; 
+            margin-right: 15px;  
+        }
+
+        .carousel .carousel-inner img {
+            width: 100%; 
+            height: 500px; 
+        }
+
+        .carousel-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-left: 20%;
+        }
+
+        .carousel-text {
+            max-width: 400px;
+        }
+
+        .container{
+            display: flex;
+            min-width: 100%;
+            margin-top: 1.5vh;
+            padding: 0;
+        }
+
+        .footer {
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 0px;
+        }
+
+        .footer-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-column {
+            text-align: left;
+            margin: 20px;
+        }
+
+        .footer-column h3 {
+            font-size: 12px;
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-column ul li {
+            font-size: 12px;
+            margin-bottom: 20px;
+            color: gray;
+        }
+
+        .footer-column ul li:hover {
+            text-decoration: underline;
+            cursor: pointer; 
+        }
+
+        .footer-logo {
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        .footer-logo img {
+            width: 180px;
+        }
+
+        }
