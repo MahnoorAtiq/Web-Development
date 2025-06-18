@@ -1,0 +1,178 @@
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">
+                        <i class="fas fa-headset me-2"></i>
+                        Contact Us
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <% if (message) { %>
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            <%= message %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    <% } %>
+
+                    <% if (error) { %>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <%= error %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    <% } %>
+
+                    <div class="mb-4">
+                        <p class="text-muted">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Have an issue with your order? We're here to help! Please provide your order details and describe your concern.
+                        </p>
+                    </div>
+
+                    <!-- Updated form with debug -->
+                    <form action="/complaints/contact" method="POST" onsubmit="console.log('Form submitted');">
+                        <div class="mb-3">
+                            <label for="orderId" class="form-label">
+                                <i class="fas fa-receipt me-2"></i>
+                                Order ID <span class="text-danger">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                class="form-control" 
+                                id="orderId" 
+                                name="orderId" 
+                                value="<%= formData.orderId || '' %>"
+                                placeholder="Enter your order number (e.g., ORD-123456)"
+                                required
+                            >
+                            <div class="form-text">
+                                <i class="fas fa-lightbulb me-1"></i>
+                                You can find your order ID in your order confirmation email or in your orders page.
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="message" class="form-label">
+                                <i class="fas fa-comment me-2"></i>
+                                Message <span class="text-danger">*</span>
+                            </label>
+                            <textarea 
+                                class="form-control" 
+                                id="message" 
+                                name="message" 
+                                rows="6" 
+                                placeholder="Please describe your issue in detail..."
+                                required
+                                minlength="10"
+                            ><%= formData.message || '' %></textarea>
+                            <div class="form-text">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Minimum 10 characters required. The more details you provide, the better we can assist you.
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="/complaints/my-complaints" class="btn btn-outline-secondary">
+                                <i class="fas fa-list me-2"></i>
+                                View My Complaints
+                            </a>
+                            <div>
+                                <a href="/" class="btn btn-light me-2">
+                                    <i class="fas fa-times me-2"></i>
+                                    Cancel
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    Submit Complaint
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <i class="fas fa-question-circle me-2"></i>
+                        Common Issues
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-shipping-fast text-primary me-2"></i>
+                                    Delivery delays or issues
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-exchange-alt text-primary me-2"></i>
+                                    Return and refund requests
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-tshirt text-primary me-2"></i>
+                                    Product quality concerns
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-credit-card text-primary me-2"></i>
+                                    Payment and billing issues
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-box text-primary me-2"></i>
+                                    Missing or damaged items
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-user text-primary me-2"></i>
+                                    Account-related problems
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.alert {
+    border: none;
+    border-radius: 8px;
+}
+
+.card-header {
+    border-bottom: none;
+    border-radius: 8px 8px 0 0 !important;
+}
+</style>
